@@ -19,6 +19,31 @@ function draw() {
   background(255);
 }
 
+function touchStarted() {
+  Tone.start().then(() => {
+    state.ready = true;
+  });
+
+  if (state.ready) {
+    synth.volume.setValueAtTime(map(mouseY, 0, height, -6, 0));
+    synth.triggerAttack(mouseX + 200);
+  }
+}
+
+function touchStopped() {
+  if (state.ready) {
+    synth.triggerRelease(synth.now());
+  }
+}
+
+function touchMoved() {
+  if (state.ready) {
+    touch = touches[0];
+    synth.frequency.exponentialRampToValueAtTime(touch.x + 200, synth.now());
+    synth.volume.exponentialRampToValueAtTime(map(touch.y, 0, height, -6, 0), synth.now());
+  }
+}
+
 function mousePressed() {
   Tone.start().then(() => {
     state.ready = true;
@@ -38,7 +63,9 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
-  synth.triggerRelease(synth.now());
+  if (state.ready) {
+    synth.triggerRelease(synth.now());
+  }
 }
 
 function windowResized() {

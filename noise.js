@@ -16,6 +16,21 @@ function draw() {
   background(255);
 }
 
+function touchStarted() {
+  Tone.start().then(() => {
+    state.ready = true;
+  });
+  if (state.ready) {
+    noise.start();
+  }
+}
+
+function touchStopped() {
+  if (state.ready) {
+    noise.stop();
+  }
+}
+
 function mousePressed() {
   Tone.start().then(() => {
     state.ready = true;
