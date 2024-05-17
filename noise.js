@@ -7,6 +7,10 @@ const state = {
   ready: false
 }
 
+document.ontouchmove = function(event) {
+    event.preventDefault();
+};
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noise = new Tone.Noise("pink").connect(Tone.Master);;
@@ -17,6 +21,10 @@ function draw() {
 }
 
 function touchStarted() {
+  let fs = fullscreen();
+  if (! fs) {
+    fullscreen(true);
+  }
   Tone.start().then(() => {
     state.ready = true;
   });
