@@ -7,9 +7,10 @@ const state = {
   ready: false
 }
 
-document.ontouchmove = function(event) {
-    event.preventDefault();
-};
+// document.ontouchmove = function(event) {
+//     event.preventDefault();
+//     event.stopPropagation();
+// };
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
