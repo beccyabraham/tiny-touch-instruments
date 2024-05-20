@@ -1,13 +1,13 @@
 import { Instrument } from "./instrument.js";
 
 export class Noise extends Instrument {
-	constructor(state) {
-		super(state);
+	constructor(state, instrumentColor) {
+		super(state, instrumentColor);
 		this.noise = new Tone.Noise("pink").connect(Tone.Master);
 	}
 
 	draw() {
-		background(255);
+		background(this.bgColor);
 	}
 
 	gestureStarted(x, y) {

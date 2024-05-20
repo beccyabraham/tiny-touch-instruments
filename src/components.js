@@ -1,10 +1,14 @@
 
-export class Menu {
-	constructor(names, state) {
-		this.state = state;
+export const instrumentColors = ["#FFEBFF", "#9BFAFD", "#E4FFC2"];
+export const darkColor = "#150949";
 
+
+export class Menu {
+	constructor(names, onSelect, state) {
+		this.state = state;
 		this.touchState = -1;
 		this.names = names;
+		this.onSelect = onSelect;
 		this.menuButtons = names.map((name, i) => {
 			return new MenuButton(i , names.length, name);
 		});
@@ -16,7 +20,7 @@ export class Menu {
 	}
 	mouseClicked() {
 		let i = this.whichItem(mouseY);
-		this.selectItem(i);
+		this.onSelect(this.names[i]);
 	}
 	touchStarted() {
 		this.touchState = this.whichItem(touches[0].y);
@@ -28,12 +32,9 @@ export class Menu {
 	}
 	touchEnded() {
 		if (this.touchState !== -1) {
-			this.selectItem(this.touchState);
+			this.onSelect(this.names[this.touchState]);
 		}
 		this.touchState = -1;
-	}
-	selectItem(i) {
-		this.state.page = this.names[i];
 	}
 	whichItem(y) {
 		for (let i = 0; i < this.names.length; i++) {
@@ -53,11 +54,15 @@ class MenuButton {
 	}
 
 	draw() {
-		stroke('black');
+		noStroke();
+		fill(instrumentColors[this.num]);
 		let y = this.num * height / this.total;
 		rect(0, y, width, height / this.total);
-		textAlign(CENTER);
-
+		
+		fill(darkColor);
+		textSize(int(height / (this.total * 4)));
+		textStyle(ITALIC);
+		textAlign(CENTER, CENTER);
 		text(this.name, width / 2, y + (height / (this.total * 2)));
 	}
 }

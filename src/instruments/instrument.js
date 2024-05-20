@@ -1,8 +1,11 @@
 
 export class Instrument {
-	constructor(state) {
+	constructor(state, instrumentColor) {
 		this.state = state;
+		this.bgColor = instrumentColor;
 	}
+	onOpen() { }
+	onClose() { }
 
 	draw() { }
 

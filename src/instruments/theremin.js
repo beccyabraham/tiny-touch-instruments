@@ -1,8 +1,9 @@
 import { Instrument } from "./instrument.js";
+import { darkColor } from "../components.js";
 
 export class Theremin extends Instrument {
-	constructor(state) {
-		super(state);
+	constructor(state, instrumentColor) {
+		super(state, instrumentColor);
 		this.synth = new Tone.Synth({
 	    	envelope: { attack: 0.5, release: 0.5 }
 	  	}).toDestination();
@@ -12,8 +13,13 @@ export class Theremin extends Instrument {
 		//background(255);
 	}
 
+	onOpen() {
+		console.log(this.bgColor);
+		background(this.bgColor);
+	}
+
 	gestureStarted(x, y) {
-		stroke("black");
+		stroke(darkColor);
 		circle(x, y, 100);
 		if (this.state.ready) {
 		    this.synth.volume.setValueAtTime(map(y, 0, height, -6, 0));
@@ -22,7 +28,7 @@ export class Theremin extends Instrument {
 	}
 
 	gestureMoved(x, y) {
-		stroke("black");
+		stroke(darkColor);
 		circle(x, y, 100);
 		if (this.state.ready) {
 		    this.synth.frequency.exponentialRampToValueAtTime(x + 200, this.synth.now());
@@ -34,5 +40,6 @@ export class Theremin extends Instrument {
 		if (this.state.ready) {
 			this.synth.triggerRelease(this.synth.now());
 		}
+		background(this.bgColor);
 	}
 }

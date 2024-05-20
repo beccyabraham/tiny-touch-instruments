@@ -1,4 +1,4 @@
-import { Menu, NavButton } from "./components.js";
+import { Menu, NavButton, instrumentColors } from "./components.js";
 import { Theremin } from "./instruments/theremin.js";
 import { Noise } from "./instruments/noise.js";
 import { Kit } from "./instruments/kit.js";
@@ -18,12 +18,15 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   instruments = {
-    theremin: new Theremin(state),
-    noise: new Noise(state),
-    kit: new Kit(state)
+    theremin: new Theremin(state, instrumentColors[0]),
+    noise: new Noise(state, instrumentColors[1]),
+    kit: new Kit(state, instrumentColors[2])
   };
 
-  menu = new Menu(Object.keys(instruments), state);
+  menu = new Menu(
+    Object.keys(instruments), 
+    (name) => { navigateToInstrument(name) }, 
+    state);
   navButton = new NavButton();
 }
 
@@ -46,7 +49,7 @@ function mouseClicked() {
   } else {
     instruments[state.page].mouseClicked();
     if (navButton.isIn(mouseX, mouseY)) {
-      state.page = "menu";
+      navigateToMenu();
     }
   }
   return false;
@@ -116,11 +119,21 @@ function touchEnded() {
   } else {
     instruments[state.page].touchEnded();
     if (touchState) {
-      state.page = "menu";
+      navigateToMenu();
       touchState = false;
     }
   }
   return false;
+}
+
+function navigateToMenu() {
+  instruments[state.page].onClose();
+  state.page = "menu";
+}
+
+function navigateToInstrument(name) {
+  instruments[name].onOpen();
+  state.page = name;
 }
 
 window.setup = setup;
