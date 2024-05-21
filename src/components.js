@@ -72,18 +72,28 @@ export class NavButton {
 		this.setParams();
 	}
 	setParams() {
-		this.radius = 10;
-		this.x = 20;
-		this.y = height - 20;
+		let refLength = max(height, width);
+		this.width = int(refLength / 20);
+		this.height = int(this.width);
+
+		// top left
+		this.x = 10;
+		this.y = height - this.height - 10;
 	}
 	draw() {
 		this.setParams();
-		fill("black");
-		circle(this.x, this.y, this.radius * 2);
+		fill(darkColor);
+
+		triangle(
+			this.x + this.width, this.y,
+			this.x + this.width, this.y + this.height,
+			this.x, this.y + (this.height / 2));
+
+		//circle(this.x, this.y, this.radius * 2);
 		noFill();
 	}
 
 	isIn(x, y) {
-		return dist(x, y, this.x, this.y) < this.radius;
+		return x > this.x && y > this.y && x < this.x + this.width && y < this.y + this.height;
 	}
 }
