@@ -5,7 +5,7 @@ export class Theremin extends Instrument {
 	constructor(state, instrumentColor) {
 		super(state, instrumentColor);
 		this.synth = new Tone.Synth({
-	    	envelope: { attack: 0.5, release: 0.5 }
+	    	envelope: { attack: 0.5, sustain: 1, release: 0.5 }
 	  	}).toDestination();
 	}
 
@@ -14,7 +14,6 @@ export class Theremin extends Instrument {
 	}
 
 	onOpen() {
-		console.log(this.bgColor);
 		background(this.bgColor);
 	}
 
@@ -22,8 +21,8 @@ export class Theremin extends Instrument {
 		stroke(darkColor);
 		circle(x, y, 100);
 		if (this.state.ready) {
-		    this.synth.volume.setValueAtTime(map(y, 0, height, -6, 0));
-		    this.synth.triggerAttack(x + 200);
+		    this.synth.volume.setValueAtTime(this.volumeAt(x, y), this.synth.now());
+		    this.synth.triggerAttack(this.frequencyAt(x, y));
 		}
 	}
 
@@ -31,8 +30,8 @@ export class Theremin extends Instrument {
 		stroke(darkColor);
 		circle(x, y, 100);
 		if (this.state.ready) {
-		    this.synth.frequency.exponentialRampToValueAtTime(x + 200, this.synth.now());
-		    this.synth.volume.exponentialRampToValueAtTime(map(y, 0, height, -6, 0), this.synth.now());
+		    this.synth.frequency.exponentialRampToValueAtTime(this.frequencyAt(x, y), this.synth.now());
+		    this.synth.volume.exponentialRampToValueAtTime(this.volumeAt(x, y), this.synth.now());
 		}
 	}
 
@@ -41,5 +40,13 @@ export class Theremin extends Instrument {
 			this.synth.triggerRelease(this.synth.now());
 		}
 		background(this.bgColor);
+	}
+
+	volumeAt(x, y) {
+		return map(x, 0, width, -12, 0);
+	}
+
+	frequencyAt(x, y) {
+		return map(y, height, 0, 100, 1000);
 	}
 }
