@@ -10,7 +10,7 @@ export class Menu {
 		this.names = names;
 		this.onSelect = onSelect;
 		this.menuButtons = names.map((name, i) => {
-			return new MenuButton(i , names.length, name);
+			return new MenuButton(i, names.length, name);
 		});
 	}
 
@@ -20,19 +20,23 @@ export class Menu {
 	}
 	mouseClicked() {
 		let i = this.whichItem(mouseY);
-		this.onSelect(this.names[i]);
+		this.onSelect(i);
 	}
 	touchStarted() {
-		this.touchState = this.whichItem(touches[0].y);
+		if (touches.length > 0) {
+			this.touchState = this.whichItem(touches[0].y);
+		}
 	}
 	touchMoved() {
-		if (this.touchState !== this.whichItem(touches[0].y)) {
-			this.touchState = -1;
+		if (touches.length > 0) {
+			if (this.touchState !== this.whichItem(touches[0].y)) {
+				this.touchState = -1;
+			}
 		}
 	}
 	touchEnded() {
 		if (this.touchState !== -1) {
-			this.onSelect(this.names[this.touchState]);
+			this.onSelect(this.touchState);
 		}
 		this.touchState = -1;
 	}
@@ -67,33 +71,64 @@ class MenuButton {
 	}
 }
 
-export class NavButton {
-	constructor() { 
-		this.setParams();
+export class FooterMenu {
+	constructor(state, onSelect) {
+		this.state = state;
+		this.onSelect = onSelect;
+		this.slots = []		// for instrument menu buttons
 	}
 	setParams() {
 		let refLength = max(height, width);
-		this.width = int(refLength / 20);
-		this.height = int(this.width);
+		this.iconSize = int(refLength / 20);
 
 		// top left
 		this.x = 10;
-		this.y = height - this.height - 10;
+		this.y = height - this.iconSize - 10;
 	}
 	draw() {
 		this.setParams();
+		noStroke();
 		fill(darkColor);
 
 		triangle(
-			this.x + this.width, this.y,
-			this.x + this.width, this.y + this.height,
-			this.x, this.y + (this.height / 2));
+			this.x + this.iconSize, this.y,
+			this.x + this.iconSize, this.y + this.iconSize,
+			this.x, this.y + (this.iconSize / 2));		 
 
-		//circle(this.x, this.y, this.radius * 2);
+		let xPos = this.x + (this.iconSize * 2.5);
+		const yPos = this.y + this.iconSize / 2;
+		this.slots = [];
+		for (let i = 0; i < instrumentColors.length; i += 1) {
+			if (i !== this.state.page) {
+				stroke(darkColor);
+				fill(instrumentColors[i]);
+				circle(xPos, yPos, this.iconSize);
+				xPos += this.iconSize * 2;
+				this.slots.push({
+					x: xPos,
+					y: yPos,
+					i: i
+				});
+			}
+		}
+		noStroke();
 		noFill();
 	}
-
-	isIn(x, y) {
-		return x > this.x && y > this.y && x < this.x + this.width && y < this.y + this.height;
+	onClick(x, y) {
+		// nav
+		if (x >= this.x && this.x <= this.x + this.iconSize 
+			&& y >= this.y && y < this.y + this.iconSize) {
+			this.onSelect("menu");
+		} else {
+			const radius = this.iconSize / 2;
+			this.slots.map((slot) => {
+				if (dist(slot.x, slot.y, x, y) < radius) {
+					this.onSelect(i);
+					return;
+				}
+			});
+		}
+		// figure out what was selected, call onSelect with the appropriate param
 	}
 }
+

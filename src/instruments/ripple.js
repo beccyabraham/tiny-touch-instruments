@@ -1,8 +1,7 @@
 import { Instrument } from "./instrument.js";
-import { darkColor } from "../components.js";
 
-export class Noise extends Instrument {
-	constructor(state, instrumentColor) {
+export class Ripple extends Instrument {
+    constructor(state, instrumentColor) {
 		super(state, instrumentColor);
 		this.noise = new Tone.Noise({
 			type: "pink",
