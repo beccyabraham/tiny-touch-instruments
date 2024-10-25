@@ -1,63 +1,74 @@
 import { Instrument } from "./instrument.js";
 
+let drawState = {
+    active: false,
+    x: 0,
+    y: 0,
+    startTime: 0
+}
+
 export class Ripple extends Instrument {
     constructor(state, instrumentColor) {
 		super(state, instrumentColor);
-		this.noise = new Tone.Noise({
-			type: "pink",
-			fadeIn: 0.5,
-			fadeOut: 0.5,
-		}).toDestination();
-		this.filter = new Tone.Filter();
-
-		this.lastX = undefined;
-		this.lastY = undefined;
+        // https://www.guitarland.com/MusicTheoryWithToneJS/Presets-gh-pages/
+        // Synth : Tree Trunk
+        this.synth = new Tone.Synth(
+            {
+                "oscillator": {
+                    "type": "sine"
+                },
+                "envelope": {
+                    "attack": 0.005,
+                    "decay": 0.1,
+                    "sustain": 0.1,
+                    "release": 1.2
+                }
+            }
+        );
+        this.delay = new Tone.FeedbackDelay(1, 0.5);
 	}
 
 	onOpen() {
-		this.filter.toDestination(1000, "highpass");
-		this.noise.connect(this.filter);
+        this.synth.toDestination();
+        this.synth.connect(this.delay);
+        this.delay.toDestination();
 		background(this.bgColor);
 	}
 
 	onClose() {
-		this.filter.disconnect();
+		this.delay.disconnect();
 	}
 
 	draw() {
-		
+		if (drawState.active) {
+            stroke("black");
+            circle(drawState.x, drawState.y, millis() - drawState.startTime); 
+        }
 	}
 
 	gestureStarted(x, y) {
+        drawState.active = true;
+        drawState.x = x;
+        drawState.y = y;
+        drawState.startTime = millis();
 		if (this.state.ready) {
-			this.filter.frequency.setValueAtTime(this.frequencyAt(x, y));
-			//this.synth.start();
-			this.noise.start();
-			this.lastX = x;
-			this.lastY = y; 
+            let pitch = random(["D", "F#", "A", "C#"]);
+            let octave = 6 - int(y * 4 / height);
+            this.synth.triggerAttackRelease(pitch + octave, "8n");
 		}
 	}
 
 	gestureMoved(x, y) {
+        drawState.x = x;
+        drawState.y = y;
 		if (this.state.ready) {
-			this.filter.frequency.exponentialRampToValueAtTime(this.frequencyAt(x, y));
-
-			let movement = dist(x, y, this.lastX, this.lastY);
-			let vol = map(movement, 0, 60, -12, 0, true);
-			this.noise.volume.exponentialRampToValueAtTime(vol);
-
-			this.lastX = x;
-			this.lastY = y;
 		}
 	}
 
 	gestureEnded() {
+        drawState.active = false;
 		if (this.state.ready) {
-			this.noise.stop();
 		}
-	}
-
-	frequencyAt(x, y) {
-		return map(y, height, 0, 50, 10000);
+        background(this.bgColor);
 	}
 }
