@@ -1,5 +1,7 @@
 import { Menu, FooterMenu, instrumentColors } from "../components.js";
 import { Ripple } from "../instruments/ripple.js";
+import { Wind } from "../instruments/wind.js";
+import { Sink } from "../instruments/sink.js";
 
 const state = {
     page: "menu",
@@ -11,13 +13,15 @@ const state = {
   let menu;
   let footerMenu;
   let instruments;
-  const instrumentNames = ["ripple"];
+  const instrumentNames = ["ripple", "wind", "sink"];
 
   function setup() {
     createCanvas(windowWidth, windowHeight);
   
     instruments = [
       new Ripple(state, instrumentColors[0]),
+      new Wind(state, instrumentColors[1]),
+      new Sink(state, instrumentColors[2])
     ];
 
   
@@ -25,7 +29,13 @@ const state = {
       instrumentNames, 
       (i) => { navigateToInstrument(i) }, 
       state);
-    footerMenu = new FooterMenu(state, (page) => navigateToMenu());
+      footerMenu = new FooterMenu(state, (page) => {
+        if (page === "menu") {
+          navigateToMenu()
+        } else {
+          navigateToInstrument(page);
+        }
+      });
   }
   
   function draw() {
@@ -128,6 +138,9 @@ const state = {
   }
   
   function navigateToInstrument(i) {
+    if (state.page !== "menu") {
+        instruments[state.page].onClose();
+    }
     instruments[i].onOpen();
     state.page = i;
   }

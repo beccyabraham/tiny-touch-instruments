@@ -24,17 +24,17 @@ function setup() {
     new Kit(state, instrumentColors[2])
   ];
 
-  // instruments = {
-  //   theremin: new Theremin(state, instrumentColors[0]),
-  //   noise: new Noise(state, instrumentColors[1]),
-  //   kit: new Kit(state, instrumentColors[2])
-  // };
-
   menu = new Menu(
     instrumentNames, 
     (i) => { navigateToInstrument(i) }, 
     state);
-  footerMenu = new FooterMenu(state, (page) => navigateToMenu());
+  footerMenu = new FooterMenu(state, (page) => {
+    if (page === "menu") {
+      navigateToMenu()
+    } else {
+      navigateToInstrument(page);
+    }
+  });
 }
 
 function draw() {

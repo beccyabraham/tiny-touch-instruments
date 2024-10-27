@@ -77,6 +77,11 @@ export class FooterMenu {
 		this.onSelect = onSelect;
 		this.slots = []		// for instrument menu buttons
 	}
+	static getY() {
+		let refLength = max(height, width);
+		let iconSize = int(refLength / 20);
+		return height - iconSize - 10;
+	}
 	setParams() {
 		let refLength = max(height, width);
 		this.iconSize = int(refLength / 20);
@@ -96,19 +101,19 @@ export class FooterMenu {
 			this.x, this.y + (this.iconSize / 2));		 
 
 		let xPos = this.x + (this.iconSize * 2.5);
-		const yPos = this.y + this.iconSize / 2;
+		const yPos  = this.y + this.iconSize / 2;
 		this.slots = [];
 		for (let i = 0; i < instrumentColors.length; i += 1) {
 			if (i !== this.state.page) {
 				stroke(darkColor);
 				fill(instrumentColors[i]);
 				circle(xPos, yPos, this.iconSize);
-				xPos += this.iconSize * 2;
 				this.slots.push({
 					x: xPos,
 					y: yPos,
 					i: i
 				});
+				xPos += this.iconSize * 2;
 			}
 		}
 		noStroke();
@@ -116,14 +121,14 @@ export class FooterMenu {
 	}
 	onClick(x, y) {
 		// nav
-		if (x >= this.x && this.x <= this.x + this.iconSize 
+		if (x >= this.x && x <= this.x + this.iconSize 
 			&& y >= this.y && y < this.y + this.iconSize) {
 			this.onSelect("menu");
 		} else {
 			const radius = this.iconSize / 2;
 			this.slots.map((slot) => {
 				if (dist(slot.x, slot.y, x, y) < radius) {
-					this.onSelect(i);
+					this.onSelect(slot.i);
 					return;
 				}
 			});
