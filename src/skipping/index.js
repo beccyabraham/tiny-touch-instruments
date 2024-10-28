@@ -1,4 +1,4 @@
-import { Menu, FooterMenu, instrumentColors } from "../components.js";
+import { Menu, FooterMenu, skippingInstrumentColors, skippingContrastColor } from "../components.js";
 import { Ripple } from "../instruments/ripple.js";
 import { Wind } from "../instruments/wind.js";
 import { Sink } from "../instruments/sink.js";
@@ -19,23 +19,25 @@ const state = {
     createCanvas(windowWidth, windowHeight);
   
     instruments = [
-      new Ripple(state, instrumentColors[0]),
-      new Wind(state, instrumentColors[1]),
-      new Sink(state, instrumentColors[2])
+      new Ripple(state, skippingInstrumentColors[0]),
+      new Wind(state, skippingInstrumentColors[1]),
+      new Sink(state, skippingInstrumentColors[2])
     ];
 
   
     menu = new Menu(
       instrumentNames, 
       (i) => { navigateToInstrument(i) }, 
-      state);
+      state,
+      skippingInstrumentColors,
+      skippingContrastColor);
       footerMenu = new FooterMenu(state, (page) => {
         if (page === "menu") {
           navigateToMenu()
         } else {
           navigateToInstrument(page);
         }
-      });
+      }, skippingInstrumentColors, skippingContrastColor);
   }
   
   function draw() {

@@ -1,21 +1,30 @@
 
-export const instrumentColors = ["#FFEBFF", "#9BFAFD", "#E4FFC2"];
-export const darkColor = "#150949";
+export const skatingInstrumentColors = ["#FFEBFF", "#9BFAFD", "#E4FFC2"];
+//export const skippingInstrumentColors = ["#315C5E", "#115569", "#0D3144"];
+export const skippingInstrumentColors = ["#242038", "#003D1E", "#03394F"];
+export const mainMenuColors = ["#FFEBFF", "#315C5E"];
+export const skatingContrastColor = "#150949";
+// export const skippingContrastColor = "#8FD694";
+export const skippingContrastColor = "#D5F2E3";
+export const mainMenuTextColors = [skatingContrastColor, skippingContrastColor];
 
 
 export class Menu {
-	constructor(names, onSelect, state) {
+	constructor(names, onSelect, state, colors, contrastColor) {
 		this.state = state;
 		this.touchState = -1;
 		this.names = names;
 		this.onSelect = onSelect;
 		this.menuButtons = names.map((name, i) => {
-			return new MenuButton(i, names.length, name);
+			if (Array.isArray(contrastColor)) {
+				return new MenuButton(i, names.length, name, colors[i], contrastColor[i]);
+			} else {
+				return new MenuButton(i, names.length, name, colors[i], contrastColor);
+			}
 		});
 	}
 
 	draw() {
-		background(255);
 		this.menuButtons.map((button) => button.draw());
 	}
 	mouseClicked() {
@@ -51,19 +60,21 @@ export class Menu {
 }
 
 class MenuButton {
-	constructor(num, total, name) {
+	constructor(num, total, name, clr, contrastColor) {
 		this.num = num;
 		this.total = total;
 		this.name = name;
+		this.color = clr;
+		this.contrastColor = contrastColor;
 	}
 
 	draw() {
 		noStroke();
-		fill(instrumentColors[this.num]);
+		fill(this.color);
 		let y = this.num * height / this.total;
 		rect(0, y, width, height / this.total);
 		
-		fill(darkColor);
+		fill(this.contrastColor);
 		textSize(int(height / (this.total * 4)));
 		textStyle(ITALIC);
 		textAlign(CENTER, CENTER);
@@ -72,9 +83,11 @@ class MenuButton {
 }
 
 export class FooterMenu {
-	constructor(state, onSelect) {
+	constructor(state, onSelect, colors, contrastColor) {
 		this.state = state;
 		this.onSelect = onSelect;
+		this.contrastColor = contrastColor;
+		this.colors = colors;
 		this.slots = []		// for instrument menu buttons
 	}
 	static getY() {
@@ -93,7 +106,7 @@ export class FooterMenu {
 	draw() {
 		this.setParams();
 		noStroke();
-		fill(darkColor);
+		fill(this.contrastColor);
 
 		triangle(
 			this.x + this.iconSize, this.y,
@@ -103,10 +116,10 @@ export class FooterMenu {
 		let xPos = this.x + (this.iconSize * 2.5);
 		const yPos  = this.y + this.iconSize / 2;
 		this.slots = [];
-		for (let i = 0; i < instrumentColors.length; i += 1) {
+		for (let i = 0; i < this.colors.length; i += 1) {
 			if (i !== this.state.page) {
-				stroke(darkColor);
-				fill(instrumentColors[i]);
+				stroke(this.contrastColor);
+				fill(this.colors[i]);
 				circle(xPos, yPos, this.iconSize);
 				this.slots.push({
 					x: xPos,

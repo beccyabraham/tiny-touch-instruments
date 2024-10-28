@@ -1,4 +1,4 @@
-import { Menu, FooterMenu, instrumentColors } from "./components.js";
+import { Menu, FooterMenu, instrumentColors, mainMenuColors, mainMenuTextColors } from "./components.js";
 
 let menu;
 
@@ -6,7 +6,7 @@ const pageNames = ["skating", "skipping"];
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    menu = new Menu(pageNames, navigateToPage);
+    menu = new Menu(pageNames, navigateToPage, {}, mainMenuColors, mainMenuTextColors);
 }
 
 function draw() {

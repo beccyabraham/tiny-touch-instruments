@@ -1,5 +1,5 @@
 import { Instrument } from "./instrument.js";
-import { darkColor } from "../components.js";
+import { skatingContrastColor } from "../components.js";
 
 export class Noise extends Instrument {
 	constructor(state, instrumentColor) {

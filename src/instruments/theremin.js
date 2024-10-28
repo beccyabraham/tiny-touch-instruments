@@ -1,5 +1,5 @@
 import { Instrument } from "./instrument.js";
-import { darkColor } from "../components.js";
+import { skatingContrastColor } from "../components.js";
 
 export class Theremin extends Instrument {
 	constructor(state, instrumentColor) {
@@ -18,7 +18,7 @@ export class Theremin extends Instrument {
 	}
 
 	gestureStarted(x, y) {
-		stroke(darkColor);
+		stroke(skatingContrastColor);
 		circle(x, y, 100);
 		if (this.state.ready) {
 		    this.synth.volume.setValueAtTime(this.volumeAt(x, y), this.synth.now());
@@ -27,7 +27,7 @@ export class Theremin extends Instrument {
 	}
 
 	gestureMoved(x, y) {
-		stroke(darkColor);
+		stroke(skatingContrastColor);
 		circle(x, y, 100);
 		if (this.state.ready) {
 		    this.synth.frequency.exponentialRampToValueAtTime(this.frequencyAt(x, y), this.synth.now());

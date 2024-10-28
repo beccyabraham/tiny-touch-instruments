@@ -1,4 +1,4 @@
-import { Menu, FooterMenu, instrumentColors } from "../components.js";
+import { Menu, FooterMenu, skatingInstrumentColors, skatingContrastColor } from "../components.js";
 import { Theremin } from "../instruments/theremin.js";
 import { Noise } from "../instruments/noise.js";
 import { Kit } from "../instruments/kit.js";
@@ -19,22 +19,24 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   instruments = [
-    new Theremin(state, instrumentColors[0]),
-    new Noise(state, instrumentColors[1]),
-    new Kit(state, instrumentColors[2])
+    new Theremin(state, skatingInstrumentColors[0]),
+    new Noise(state, skatingInstrumentColors[1]),
+    new Kit(state, skatingInstrumentColors[2])
   ];
 
   menu = new Menu(
     instrumentNames, 
     (i) => { navigateToInstrument(i) }, 
-    state);
+    state, 
+    skatingInstrumentColors,
+    skatingContrastColor);
   footerMenu = new FooterMenu(state, (page) => {
     if (page === "menu") {
       navigateToMenu()
     } else {
       navigateToInstrument(page);
     }
-  });
+  }, skatingInstrumentColors, skatingContrastColor);
 }
 
 function draw() {
@@ -137,6 +139,9 @@ function navigateToMenu() {
 }
 
 function navigateToInstrument(i) {
+  if (state.page !== "menu") {
+    instruments[state.page].onClose();
+  }
   instruments[i].onOpen();
   state.page = i;
 }

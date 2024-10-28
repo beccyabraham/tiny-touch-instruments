@@ -1,5 +1,5 @@
 import { Instrument } from "./instrument.js";
-import { FooterMenu } from "../components.js";
+import { FooterMenu, skippingContrastColor } from "../components.js";
 
 let drawState = {
     active: false,
@@ -14,22 +14,6 @@ let drawState = {
 export class Ripple extends Instrument {
     constructor(state, instrumentColor) {
 		super(state, instrumentColor);
-        // https://www.guitarland.com/MusicTheoryWithToneJS/Presets-gh-pages/
-        // Synth : Tree Trunk
-        // this.synth = new Tone.Synth(
-        //     {
-        //         "oscillator": {
-        //             "type": "sine"
-        //         },
-        //         "envelope": {
-        //             "attack": 0.01,
-        //             "decay": 0.1,
-        //             "sustain": 0.1,
-        //             "release": 1.2
-        //         }
-        //     }
-        // );
-
         this.synth = new Tone.FMSynth(
             {
                 "harmonicity":8,
@@ -71,12 +55,12 @@ export class Ripple extends Instrument {
 
 	draw() {
 		if (drawState.active) {
-            stroke("black");
+            stroke(skippingContrastColor);
             circle(drawState.x, drawState.y, millis() - drawState.startTime); 
         }
 
         if (drawState.moving) {
-            stroke("black");
+            stroke(skippingContrastColor);
             line(0, this.sliderY, width, this.sliderY);
         }
 	}

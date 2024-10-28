@@ -1,5 +1,5 @@
 import { Instrument } from "./instrument.js";
-import { darkColor } from "../components.js";
+import { skatingContrastColor } from "../components.js";
 
 export class Kit extends Instrument {
 	constructor(state, instrumentColor) {
@@ -57,7 +57,7 @@ class Drum {
 		}
 	}
 	draw() {
-		let fillColor = color(darkColor);
+		let fillColor = color(skatingContrastColor);
 		fillColor.setAlpha(50);
 		fill(fillColor);
 		circle(this.x, this.y, this.radius * 2);
