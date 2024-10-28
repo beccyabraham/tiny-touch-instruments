@@ -148,5 +148,8 @@ export class FooterMenu {
 		}
 		// figure out what was selected, call onSelect with the appropriate param
 	}
+	isIn(x, y) {
+		return y >= this.y && x <= this.slots[this.slots.length - 1].x + (this.iconSize / 2);
+	}
 }
 

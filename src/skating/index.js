@@ -8,7 +8,11 @@ const state = {
   ready: false
 };
 
-let touchState = false;
+let touchState = {
+  active: false,
+  lastX: 0,
+  lastY: 0
+}
 
 let menu;
 let footerMenu;
@@ -102,7 +106,9 @@ function touchStarted() {
     menu.touchStarted();
   } else {
     instruments[state.page].touchStarted();
-    //touchState = navButton.isIn(touches[0].x, touches[0].y);
+    touchState.active = footerMenu.isIn(touches[0].x, touches[0].y);
+    touchState.lastX = touches[0].x;
+    touchState.lastY = touches[0].y;
   }
   return false;
 }
@@ -112,7 +118,9 @@ function touchMoved() {
     menu.touchMoved();
   } else {
     instruments[state.page].touchMoved();
-    //touchState = navButton.isIn(touches[0].x, touches[0].y);
+    touchState.active = footerMenu.isIn(touches[0].x, touches[0].y);
+    touchState.lastX = touches[0].x;
+    touchState.lastY = touches[0].y;
   }
   return false;
 }
@@ -125,9 +133,9 @@ function touchEnded() {
     menu.touchEnded();
   } else {
     instruments[state.page].touchEnded();
-    if (touchState) {
-      footerMenu.onClick(touches[0].x, touches[0].y);
-      touchState = false;
+    if (touchState.active) {
+      footerMenu.onClick(touchState.lastX, touchState.lastY);
+      touchState.active = false;
     }
   }
   return false;

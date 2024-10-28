@@ -1,4 +1,4 @@
-import { Menu, FooterMenu, instrumentColors, mainMenuColors, mainMenuTextColors } from "./components.js";
+import { Menu, mainMenuColors, mainMenuTextColors } from "./components.js";
 
 let menu;
 
