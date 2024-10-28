@@ -1,0 +1,96 @@
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/components.js":
+/*!***************************!*\
+  !*** ./src/components.js ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   FooterMenu: () => (/* binding */ FooterMenu),\n/* harmony export */   Menu: () => (/* binding */ Menu),\n/* harmony export */   mainMenuColors: () => (/* binding */ mainMenuColors),\n/* harmony export */   mainMenuTextColors: () => (/* binding */ mainMenuTextColors),\n/* harmony export */   skatingContrastColor: () => (/* binding */ skatingContrastColor),\n/* harmony export */   skatingInstrumentColors: () => (/* binding */ skatingInstrumentColors),\n/* harmony export */   skippingContrastColor: () => (/* binding */ skippingContrastColor),\n/* harmony export */   skippingInstrumentColors: () => (/* binding */ skippingInstrumentColors)\n/* harmony export */ });\n\nconst skatingInstrumentColors = [\"#FFEBFF\", \"#9BFAFD\", \"#E4FFC2\"];\n//export const skippingInstrumentColors = [\"#315C5E\", \"#115569\", \"#0D3144\"];\nconst skippingInstrumentColors = [\"#242038\", \"#003D1E\", \"#03394F\"];\nconst mainMenuColors = [\"#FFEBFF\", \"#315C5E\"];\nconst skatingContrastColor = \"#150949\";\n// export const skippingContrastColor = \"#8FD694\";\nconst skippingContrastColor = \"#D5F2E3\";\nconst mainMenuTextColors = [skatingContrastColor, skippingContrastColor];\n\n\nclass Menu {\n\tconstructor(names, onSelect, state, colors, contrastColor) {\n\t\tthis.state = state;\n\t\tthis.touchState = -1;\n\t\tthis.names = names;\n\t\tthis.onSelect = onSelect;\n\t\tthis.menuButtons = names.map((name, i) => {\n\t\t\tif (Array.isArray(contrastColor)) {\n\t\t\t\treturn new MenuButton(i, names.length, name, colors[i], contrastColor[i]);\n\t\t\t} else {\n\t\t\t\treturn new MenuButton(i, names.length, name, colors[i], contrastColor);\n\t\t\t}\n\t\t});\n\t}\n\n\tdraw() {\n\t\tthis.menuButtons.map((button) => button.draw());\n\t}\n\tmouseClicked() {\n\t\tlet i = this.whichItem(mouseY);\n\t\tthis.onSelect(i);\n\t}\n\ttouchStarted() {\n\t\tif (touches.length > 0) {\n\t\t\tthis.touchState = this.whichItem(touches[0].y);\n\t\t}\n\t}\n\ttouchMoved() {\n\t\tif (touches.length > 0) {\n\t\t\tif (this.touchState !== this.whichItem(touches[0].y)) {\n\t\t\t\tthis.touchState = -1;\n\t\t\t}\n\t\t}\n\t}\n\ttouchEnded() {\n\t\tif (this.touchState !== -1) {\n\t\t\tthis.onSelect(this.touchState);\n\t\t}\n\t\tthis.touchState = -1;\n\t}\n\twhichItem(y) {\n\t\tfor (let i = 0; i < this.names.length; i++) {\n\t\t\tif (y < (i + 1) * (height / this.names.length)) {\n\t\t\t\treturn i;\n\t\t\t}\n\t\t}\n\t\treturn -1;\n\t}\n}\n\nclass MenuButton {\n\tconstructor(num, total, name, clr, contrastColor) {\n\t\tthis.num = num;\n\t\tthis.total = total;\n\t\tthis.name = name;\n\t\tthis.color = clr;\n\t\tthis.contrastColor = contrastColor;\n\t}\n\n\tdraw() {\n\t\tnoStroke();\n\t\tfill(this.color);\n\t\tlet y = this.num * height / this.total;\n\t\trect(0, y, width, height / this.total);\n\t\t\n\t\tfill(this.contrastColor);\n\t\ttextSize(int(height / (this.total * 4)));\n\t\ttextStyle(ITALIC);\n\t\ttextAlign(CENTER, CENTER);\n\t\ttext(this.name, width / 2, y + (height / (this.total * 2)));\n\t}\n}\n\nclass FooterMenu {\n\tconstructor(state, onSelect, colors, contrastColor) {\n\t\tthis.state = state;\n\t\tthis.onSelect = onSelect;\n\t\tthis.contrastColor = contrastColor;\n\t\tthis.colors = colors;\n\t\tthis.slots = []\t\t// for instrument menu buttons\n\t}\n\tstatic getY() {\n\t\tlet refLength = max(height, width);\n\t\tlet iconSize = int(refLength / 20);\n\t\treturn height - iconSize - 10;\n\t}\n\tsetParams() {\n\t\tlet refLength = max(height, width);\n\t\tthis.iconSize = int(refLength / 20);\n\n\t\t// top left\n\t\tthis.x = 10;\n\t\tthis.y = height - this.iconSize - 10;\n\t}\n\tdraw() {\n\t\tthis.setParams();\n\t\tnoStroke();\n\t\tfill(this.contrastColor);\n\n\t\ttriangle(\n\t\t\tthis.x + this.iconSize, this.y,\n\t\t\tthis.x + this.iconSize, this.y + this.iconSize,\n\t\t\tthis.x, this.y + (this.iconSize / 2));\t\t \n\n\t\tlet xPos = this.x + (this.iconSize * 2.5);\n\t\tconst yPos  = this.y + this.iconSize / 2;\n\t\tthis.slots = [];\n\t\tfor (let i = 0; i < this.colors.length; i += 1) {\n\t\t\tif (i !== this.state.page) {\n\t\t\t\tstroke(this.contrastColor);\n\t\t\t\tfill(this.colors[i]);\n\t\t\t\tcircle(xPos, yPos, this.iconSize);\n\t\t\t\tthis.slots.push({\n\t\t\t\t\tx: xPos,\n\t\t\t\t\ty: yPos,\n\t\t\t\t\ti: i\n\t\t\t\t});\n\t\t\t\txPos += this.iconSize * 2;\n\t\t\t}\n\t\t}\n\t\tnoStroke();\n\t\tnoFill();\n\t}\n\tonClick(x, y) {\n\t\t// nav\n\t\tif (x >= this.x && x <= this.x + this.iconSize \n\t\t\t&& y >= this.y && y < this.y + this.iconSize) {\n\t\t\tthis.onSelect(\"menu\");\n\t\t} else {\n\t\t\tconst radius = this.iconSize / 2;\n\t\t\tthis.slots.map((slot) => {\n\t\t\t\tif (dist(slot.x, slot.y, x, y) < radius) {\n\t\t\t\t\tthis.onSelect(slot.i);\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t});\n\t\t}\n\t\t// figure out what was selected, call onSelect with the appropriate param\n\t}\n}\n\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvY29tcG9uZW50cy5qcyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFDTztBQUNQO0FBQ087QUFDQTtBQUNBO0FBQ1A7QUFDTztBQUNBOzs7QUFHQTtBQUNQO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxLQUFLO0FBQ0w7QUFDQTtBQUNBLEdBQUc7QUFDSDs7QUFFQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0Esa0JBQWtCLHVCQUF1QjtBQUN6QztBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTs7QUFFQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOztBQUVBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOztBQUVPO0FBQ1A7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOztBQUVBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBRUE7QUFDQTtBQUNBO0FBQ0E7O0FBRUE7QUFDQTtBQUNBO0FBQ0Esa0JBQWtCLHdCQUF3QjtBQUMxQztBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsS0FBSztBQUNMO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxJQUFJO0FBQ0o7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsSUFBSTtBQUNKO0FBQ0E7QUFDQTtBQUNBIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vdGlueXRvdWNoaW5zdHJ1bWVudHMvLi9zcmMvY29tcG9uZW50cy5qcz9kOGJhIl0sInNvdXJjZXNDb250ZW50IjpbIlxuZXhwb3J0IGNvbnN0IHNrYXRpbmdJbnN0cnVtZW50Q29sb3JzID0gW1wiI0ZGRUJGRlwiLCBcIiM5QkZBRkRcIiwgXCIjRTRGRkMyXCJdO1xuLy9leHBvcnQgY29uc3Qgc2tpcHBpbmdJbnN0cnVtZW50Q29sb3JzID0gW1wiIzMxNUM1RVwiLCBcIiMxMTU1NjlcIiwgXCIjMEQzMTQ0XCJdO1xuZXhwb3J0IGNvbnN0IHNraXBwaW5nSW5zdHJ1bWVudENvbG9ycyA9IFtcIiMyNDIwMzhcIiwgXCIjMDAzRDFFXCIsIFwiIzAzMzk0RlwiXTtcbmV4cG9ydCBjb25zdCBtYWluTWVudUNvbG9ycyA9IFtcIiNGRkVCRkZcIiwgXCIjMzE1QzVFXCJdO1xuZXhwb3J0IGNvbnN0IHNrYXRpbmdDb250cmFzdENvbG9yID0gXCIjMTUwOTQ5XCI7XG4vLyBleHBvcnQgY29uc3Qgc2tpcHBpbmdDb250cmFzdENvbG9yID0gXCIjOEZENjk0XCI7XG5leHBvcnQgY29uc3Qgc2tpcHBpbmdDb250cmFzdENvbG9yID0gXCIjRDVGMkUzXCI7XG5leHBvcnQgY29uc3QgbWFpbk1lbnVUZXh0Q29sb3JzID0gW3NrYXRpbmdDb250cmFzdENvbG9yLCBza2lwcGluZ0NvbnRyYXN0Q29sb3JdO1xuXG5cbmV4cG9ydCBjbGFzcyBNZW51IHtcblx0Y29uc3RydWN0b3IobmFtZXMsIG9uU2VsZWN0LCBzdGF0ZSwgY29sb3JzLCBjb250cmFzdENvbG9yKSB7XG5cdFx0dGhpcy5zdGF0ZSA9IHN0YXRlO1xuXHRcdHRoaXMudG91Y2hTdGF0ZSA9IC0xO1xuXHRcdHRoaXMubmFtZXMgPSBuYW1lcztcblx0XHR0aGlzLm9uU2VsZWN0ID0gb25TZWxlY3Q7XG5cdFx0dGhpcy5tZW51QnV0dG9ucyA9IG5hbWVzLm1hcCgobmFtZSwgaSkgPT4ge1xuXHRcdFx0aWYgKEFycmF5LmlzQXJyYXkoY29udHJhc3RDb2xvcikpIHtcblx0XHRcdFx0cmV0dXJuIG5ldyBNZW51QnV0dG9uKGksIG5hbWVzLmxlbmd0aCwgbmFtZSwgY29sb3JzW2ldLCBjb250cmFzdENvbG9yW2ldKTtcblx0XHRcdH0gZWxzZSB7XG5cdFx0XHRcdHJldHVybiBuZXcgTWVudUJ1dHRvbihpLCBuYW1lcy5sZW5ndGgsIG5hbWUsIGNvbG9yc1tpXSwgY29udHJhc3RDb2xvcik7XG5cdFx0XHR9XG5cdFx0fSk7XG5cdH1cblxuXHRkcmF3KCkge1xuXHRcdHRoaXMubWVudUJ1dHRvbnMubWFwKChidXR0b24pID0+IGJ1dHRvbi5kcmF3KCkpO1xuXHR9XG5cdG1vdXNlQ2xpY2tlZCgpIHtcblx0XHRsZXQgaSA9IHRoaXMud2hpY2hJdGVtKG1vdXNlWSk7XG5cdFx0dGhpcy5vblNlbGVjdChpKTtcblx0fVxuXHR0b3VjaFN0YXJ0ZWQoKSB7XG5cdFx0aWYgKHRvdWNoZXMubGVuZ3RoID4gMCkge1xuXHRcdFx0dGhpcy50b3VjaFN0YXRlID0gdGhpcy53aGljaEl0ZW0odG91Y2hlc1swXS55KTtcblx0XHR9XG5cdH1cblx0dG91Y2hNb3ZlZCgpIHtcblx0XHRpZiAodG91Y2hlcy5sZW5ndGggPiAwKSB7XG5cdFx0XHRpZiAodGhpcy50b3VjaFN0YXRlICE9PSB0aGlzLndoaWNoSXRlbSh0b3VjaGVzWzBdLnkpKSB7XG5cdFx0XHRcdHRoaXMudG91Y2hTdGF0ZSA9IC0xO1xuXHRcdFx0fVxuXHRcdH1cblx0fVxuXHR0b3VjaEVuZGVkKCkge1xuXHRcdGlmICh0aGlzLnRvdWNoU3RhdGUgIT09IC0xKSB7XG5cdFx0XHR0aGlzLm9uU2VsZWN0KHRoaXMudG91Y2hTdGF0ZSk7XG5cdFx0fVxuXHRcdHRoaXMudG91Y2hTdGF0ZSA9IC0xO1xuXHR9XG5cdHdoaWNoSXRlbSh5KSB7XG5cdFx0Zm9yIChsZXQgaSA9IDA7IGkgPCB0aGlzLm5hbWVzLmxlbmd0aDsgaSsrKSB7XG5cdFx0XHRpZiAoeSA8IChpICsgMSkgKiAoaGVpZ2h0IC8gdGhpcy5uYW1lcy5sZW5ndGgpKSB7XG5cdFx0XHRcdHJldHVybiBpO1xuXHRcdFx0fVxuXHRcdH1cblx0XHRyZXR1cm4gLTE7XG5cdH1cbn1cblxuY2xhc3MgTWVudUJ1dHRvbiB7XG5cdGNvbnN0cnVjdG9yKG51bSwgdG90YWwsIG5hbWUsIGNsciwgY29udHJhc3RDb2xvcikge1xuXHRcdHRoaXMubnVtID0gbnVtO1xuXHRcdHRoaXMudG90YWwgPSB0b3RhbDtcblx0XHR0aGlzLm5hbWUgPSBuYW1lO1xuXHRcdHRoaXMuY29sb3IgPSBjbHI7XG5cdFx0dGhpcy5jb250cmFzdENvbG9yID0gY29udHJhc3RDb2xvcjtcblx0fVxuXG5cdGRyYXcoKSB7XG5cdFx0bm9TdHJva2UoKTtcblx0XHRmaWxsKHRoaXMuY29sb3IpO1xuXHRcdGxldCB5ID0gdGhpcy5udW0gKiBoZWlnaHQgLyB0aGlzLnRvdGFsO1xuXHRcdHJlY3QoMCwgeSwgd2lkdGgsIGhlaWdodCAvIHRoaXMudG90YWwpO1xuXHRcdFxuXHRcdGZpbGwodGhpcy5jb250cmFzdENvbG9yKTtcblx0XHR0ZXh0U2l6ZShpbnQoaGVpZ2h0IC8gKHRoaXMudG90YWwgKiA0KSkpO1xuXHRcdHRleHRTdHlsZShJVEFMSUMpO1xuXHRcdHRleHRBbGlnbihDRU5URVIsIENFTlRFUik7XG5cdFx0dGV4dCh0aGlzLm5hbWUsIHdpZHRoIC8gMiwgeSArIChoZWlnaHQgLyAodGhpcy50b3RhbCAqIDIpKSk7XG5cdH1cbn1cblxuZXhwb3J0IGNsYXNzIEZvb3Rlck1lbnUge1xuXHRjb25zdHJ1Y3RvcihzdGF0ZSwgb25TZWxlY3QsIGNvbG9ycywgY29udHJhc3RDb2xvcikge1xuXHRcdHRoaXMuc3RhdGUgPSBzdGF0ZTtcblx0XHR0aGlzLm9uU2VsZWN0ID0gb25TZWxlY3Q7XG5cdFx0dGhpcy5jb250cmFzdENvbG9yID0gY29udHJhc3RDb2xvcjtcblx0XHR0aGlzLmNvbG9ycyA9IGNvbG9ycztcblx0XHR0aGlzLnNsb3RzID0gW11cdFx0Ly8gZm9yIGluc3RydW1lbnQgbWVudSBidXR0b25zXG5cdH1cblx0c3RhdGljIGdldFkoKSB7XG5cdFx0bGV0IHJlZkxlbmd0aCA9IG1heChoZWlnaHQsIHdpZHRoKTtcblx0XHRsZXQgaWNvblNpemUgPSBpbnQocmVmTGVuZ3RoIC8gMjApO1xuXHRcdHJldHVybiBoZWlnaHQgLSBpY29uU2l6ZSAtIDEwO1xuXHR9XG5cdHNldFBhcmFtcygpIHtcblx0XHRsZXQgcmVmTGVuZ3RoID0gbWF4KGhlaWdodCwgd2lkdGgpO1xuXHRcdHRoaXMuaWNvblNpemUgPSBpbnQocmVmTGVuZ3RoIC8gMjApO1xuXG5cdFx0Ly8gdG9wIGxlZnRcblx0XHR0aGlzLnggPSAxMDtcblx0XHR0aGlzLnkgPSBoZWlnaHQgLSB0aGlzLmljb25TaXplIC0gMTA7XG5cdH1cblx0ZHJhdygpIHtcblx0XHR0aGlzLnNldFBhcmFtcygpO1xuXHRcdG5vU3Ryb2tlKCk7XG5cdFx0ZmlsbCh0aGlzLmNvbnRyYXN0Q29sb3IpO1xuXG5cdFx0dHJpYW5nbGUoXG5cdFx0XHR0aGlzLnggKyB0aGlzLmljb25TaXplLCB0aGlzLnksXG5cdFx0XHR0aGlzLnggKyB0aGlzLmljb25TaXplLCB0aGlzLnkgKyB0aGlzLmljb25TaXplLFxuXHRcdFx0dGhpcy54LCB0aGlzLnkgKyAodGhpcy5pY29uU2l6ZSAvIDIpKTtcdFx0IFxuXG5cdFx0bGV0IHhQb3MgPSB0aGlzLnggKyAodGhpcy5pY29uU2l6ZSAqIDIuNSk7XG5cdFx0Y29uc3QgeVBvcyAgPSB0aGlzLnkgKyB0aGlzLmljb25TaXplIC8gMjtcblx0XHR0aGlzLnNsb3RzID0gW107XG5cdFx0Zm9yIChsZXQgaSA9IDA7IGkgPCB0aGlzLmNvbG9ycy5sZW5ndGg7IGkgKz0gMSkge1xuXHRcdFx0aWYgKGkgIT09IHRoaXMuc3RhdGUucGFnZSkge1xuXHRcdFx0XHRzdHJva2UodGhpcy5jb250cmFzdENvbG9yKTtcblx0XHRcdFx0ZmlsbCh0aGlzLmNvbG9yc1tpXSk7XG5cdFx0XHRcdGNpcmNsZSh4UG9zLCB5UG9zLCB0aGlzLmljb25TaXplKTtcblx0XHRcdFx0dGhpcy5zbG90cy5wdXNoKHtcblx0XHRcdFx0XHR4OiB4UG9zLFxuXHRcdFx0XHRcdHk6IHlQb3MsXG5cdFx0XHRcdFx0aTogaVxuXHRcdFx0XHR9KTtcblx0XHRcdFx0eFBvcyArPSB0aGlzLmljb25TaXplICogMjtcblx0XHRcdH1cblx0XHR9XG5cdFx0bm9TdHJva2UoKTtcblx0XHRub0ZpbGwoKTtcblx0fVxuXHRvbkNsaWNrKHgsIHkpIHtcblx0XHQvLyBuYXZcblx0XHRpZiAoeCA+PSB0aGlzLnggJiYgeCA8PSB0aGlzLnggKyB0aGlzLmljb25TaXplIFxuXHRcdFx0JiYgeSA+PSB0aGlzLnkgJiYgeSA8IHRoaXMueSArIHRoaXMuaWNvblNpemUpIHtcblx0XHRcdHRoaXMub25TZWxlY3QoXCJtZW51XCIpO1xuXHRcdH0gZWxzZSB7XG5cdFx0XHRjb25zdCByYWRpdXMgPSB0aGlzLmljb25TaXplIC8gMjtcblx0XHRcdHRoaXMuc2xvdHMubWFwKChzbG90KSA9PiB7XG5cdFx0XHRcdGlmIChkaXN0KHNsb3QueCwgc2xvdC55LCB4LCB5KSA8IHJhZGl1cykge1xuXHRcdFx0XHRcdHRoaXMub25TZWxlY3Qoc2xvdC5pKTtcblx0XHRcdFx0XHRyZXR1cm47XG5cdFx0XHRcdH1cblx0XHRcdH0pO1xuXHRcdH1cblx0XHQvLyBmaWd1cmUgb3V0IHdoYXQgd2FzIHNlbGVjdGVkLCBjYWxsIG9uU2VsZWN0IHdpdGggdGhlIGFwcHJvcHJpYXRlIHBhcmFtXG5cdH1cbn1cblxuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./src/components.js\n");
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _components_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components.js */ \"./src/components.js\");\n\n\nlet menu;\n\nconst pageNames = [\"skating\", \"skipping\"];\n\nfunction setup() {\n    createCanvas(windowWidth, windowHeight);\n    menu = new _components_js__WEBPACK_IMPORTED_MODULE_0__.Menu(pageNames, navigateToPage, {}, _components_js__WEBPACK_IMPORTED_MODULE_0__.mainMenuColors, _components_js__WEBPACK_IMPORTED_MODULE_0__.mainMenuTextColors);\n}\n\nfunction draw() {\n    menu.draw();\n}\n\nfunction navigateToPage(i) {\n    if (i == 0) {\n        window.location.href = \"./skating\";\n    } else if (i == 1) {\n        window.location.href = \"./skipping\";\n    }\n}\n\nfunction mouseClicked() {\n    menu.mouseClicked();\n}\n\nfunction touchStarted() {\n    menu.touchStarted();\n}\n\nfunction touchMoved() {\n    menu.touchMoved();\n}\n\nfunction touchEnded() {\n    menu.touchEnded();\n}\n\nfunction windowResized() {\n    resizeCanvas(windowWidth, windowHeight);\n}\n\nwindow.setup = setup;\nwindow.draw = draw;\nwindow.mouseClicked = mouseClicked;\nwindow.touchStarted = touchStarted;\nwindow.touchMoved = touchMoved;\nwindow.touchEnded = touchEnded;\nwindow.windowResized = windowResized;//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXguanMiLCJtYXBwaW5ncyI6Ijs7QUFBeUc7O0FBRXpHOztBQUVBOztBQUVBO0FBQ0E7QUFDQSxlQUFlLGdEQUFJLDhCQUE4QixFQUFFLDBEQUFjLEVBQUUsOERBQWtCO0FBQ3JGOztBQUVBO0FBQ0E7QUFDQTs7QUFFQTtBQUNBO0FBQ0E7QUFDQSxNQUFNO0FBQ047QUFDQTtBQUNBOztBQUVBO0FBQ0E7QUFDQTs7QUFFQTtBQUNBO0FBQ0E7O0FBRUE7QUFDQTtBQUNBOztBQUVBO0FBQ0E7QUFDQTs7QUFFQTtBQUNBO0FBQ0E7O0FBRUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly90aW55dG91Y2hpbnN0cnVtZW50cy8uL3NyYy9pbmRleC5qcz9iNjM1Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IE1lbnUsIEZvb3Rlck1lbnUsIGluc3RydW1lbnRDb2xvcnMsIG1haW5NZW51Q29sb3JzLCBtYWluTWVudVRleHRDb2xvcnMgfSBmcm9tIFwiLi9jb21wb25lbnRzLmpzXCI7XG5cbmxldCBtZW51O1xuXG5jb25zdCBwYWdlTmFtZXMgPSBbXCJza2F0aW5nXCIsIFwic2tpcHBpbmdcIl07XG5cbmZ1bmN0aW9uIHNldHVwKCkge1xuICAgIGNyZWF0ZUNhbnZhcyh3aW5kb3dXaWR0aCwgd2luZG93SGVpZ2h0KTtcbiAgICBtZW51ID0gbmV3IE1lbnUocGFnZU5hbWVzLCBuYXZpZ2F0ZVRvUGFnZSwge30sIG1haW5NZW51Q29sb3JzLCBtYWluTWVudVRleHRDb2xvcnMpO1xufVxuXG5mdW5jdGlvbiBkcmF3KCkge1xuICAgIG1lbnUuZHJhdygpO1xufVxuXG5mdW5jdGlvbiBuYXZpZ2F0ZVRvUGFnZShpKSB7XG4gICAgaWYgKGkgPT0gMCkge1xuICAgICAgICB3aW5kb3cubG9jYXRpb24uaHJlZiA9IFwiLi9za2F0aW5nXCI7XG4gICAgfSBlbHNlIGlmIChpID09IDEpIHtcbiAgICAgICAgd2luZG93LmxvY2F0aW9uLmhyZWYgPSBcIi4vc2tpcHBpbmdcIjtcbiAgICB9XG59XG5cbmZ1bmN0aW9uIG1vdXNlQ2xpY2tlZCgpIHtcbiAgICBtZW51Lm1vdXNlQ2xpY2tlZCgpO1xufVxuXG5mdW5jdGlvbiB0b3VjaFN0YXJ0ZWQoKSB7XG4gICAgbWVudS50b3VjaFN0YXJ0ZWQoKTtcbn1cblxuZnVuY3Rpb24gdG91Y2hNb3ZlZCgpIHtcbiAgICBtZW51LnRvdWNoTW92ZWQoKTtcbn1cblxuZnVuY3Rpb24gdG91Y2hFbmRlZCgpIHtcbiAgICBtZW51LnRvdWNoRW5kZWQoKTtcbn1cblxuZnVuY3Rpb24gd2luZG93UmVzaXplZCgpIHtcbiAgICByZXNpemVDYW52YXMod2luZG93V2lkdGgsIHdpbmRvd0hlaWdodCk7XG59XG5cbndpbmRvdy5zZXR1cCA9IHNldHVwO1xud2luZG93LmRyYXcgPSBkcmF3O1xud2luZG93Lm1vdXNlQ2xpY2tlZCA9IG1vdXNlQ2xpY2tlZDtcbndpbmRvdy50b3VjaFN0YXJ0ZWQgPSB0b3VjaFN0YXJ0ZWQ7XG53aW5kb3cudG91Y2hNb3ZlZCA9IHRvdWNoTW92ZWQ7XG53aW5kb3cudG91Y2hFbmRlZCA9IHRvdWNoRW5kZWQ7XG53aW5kb3cud2luZG93UmVzaXplZCA9IHdpbmRvd1Jlc2l6ZWQ7Il0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./src/index.js\n");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval-source-map devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.js");
+/******/ 	
+/******/ })()
+;
