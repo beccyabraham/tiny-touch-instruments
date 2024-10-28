@@ -20,7 +20,7 @@ let instruments;
 const instrumentNames = ["theremin", "noise", "kit"];
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(window.innerWidth, window.innerHeight);
 
   instruments = [
     new Theremin(state, skatingInstrumentColors[0]),
@@ -53,7 +53,7 @@ function draw() {
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  createCanvas(window.innerWidth, window.innerHeight);
 }
 
 function mouseClicked() {

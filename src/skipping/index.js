@@ -20,7 +20,9 @@ const state = {
   const instrumentNames = ["ripple", "wind", "sink"];
 
   function setup() {
-    createCanvas(windowWidth, windowHeight);
+    // https://openprocessing.org/sketch/790331/
+    // createCanvas(windowWidth, windowHeight);
+    createCanvas(window.innerWidth, window.innerHeight);
   
     instruments = [
       new Ripple(state, skippingInstrumentColors[0]),
@@ -54,7 +56,7 @@ const state = {
   }
   
   function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
+    createCanvas(window.innerWidth, window.innerHeight);
   }
   
   function mouseClicked() {

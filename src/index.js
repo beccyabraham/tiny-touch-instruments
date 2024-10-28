@@ -5,7 +5,7 @@ let menu;
 const pageNames = ["skating", "skipping"];
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(window.innerWidth, window.innerHeight);
     menu = new Menu(pageNames, navigateToPage, {}, mainMenuColors, mainMenuTextColors);
 }
 
@@ -38,7 +38,7 @@ function touchEnded() {
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
+    createCanvas(window.innerWidth, window.innerHeight);
 }
 
 window.setup = setup;
