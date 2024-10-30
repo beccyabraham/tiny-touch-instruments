@@ -14,6 +14,11 @@ let drawState = {
 export class Ripple extends Instrument {
     constructor(state, instrumentColor) {
 		super(state, instrumentColor);
+        this.createToneObjects();
+        this.sliderY = map(0.5, 0, 1, FooterMenu.getY(), 0);
+	}
+
+    createToneObjects() {
         this.synth = new Tone.FMSynth(
             {
                 "harmonicity":8,
@@ -39,10 +44,10 @@ export class Ripple extends Instrument {
             }
         );
         this.delay = new Tone.FeedbackDelay(1, 0.5);
-        this.sliderY = map(0.5, 0, 1, FooterMenu.getY(), 0);
-	}
+    }
 
 	onOpen() {
+        this.createToneObjects();
         this.synth.toDestination();
         this.synth.connect(this.delay);
         this.delay.toDestination();
@@ -51,6 +56,8 @@ export class Ripple extends Instrument {
 
 	onClose() {
 		this.delay.disconnect();
+        this.delay.dispose();
+        this.synth.dispose();
 	}
 
 	draw() {

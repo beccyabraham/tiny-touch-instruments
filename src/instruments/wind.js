@@ -1,5 +1,5 @@
 import { Instrument } from "./instrument.js";
-import { FooterMenu } from "../components.js";
+import { FooterMenu, skippingContrastColor } from "../components.js";
 
 let effectState = {
     startTime: 0,
@@ -11,7 +11,9 @@ let synthNotes;
 export class Wind extends Instrument {
     constructor(state, instrumentColor) {
 		super(state, instrumentColor);
+	}
 
+    createToneObjects() {
         this.synth = new Tone.NoiseSynth(
             {
                 noise: {
@@ -44,9 +46,10 @@ export class Wind extends Instrument {
             }
         )
         this.gain = new Tone.Gain(0, "decibels")
-	}
+    }
 
 	onOpen() {
+        this.createToneObjects();
         this.synth.connect(this.gain);
         this.gain.connect(this.lpFilter);
         this.lpFilter.connect(this.filter);
@@ -61,6 +64,10 @@ export class Wind extends Instrument {
 	onClose() {
         this.gain.gain.rampTo(0);
 		this.synth.disconnect();
+        this.synth.dispose();
+        this.gain.dispose();
+        this.lpFilter.dispose();
+        this.filter.dispose();
 	}
 
 	draw() {
@@ -88,6 +95,12 @@ export class Wind extends Instrument {
 	}
 
 	gestureMoved(x, y) {
+        noStroke();
+        fill(skippingContrastColor);
+        circle(x, y, width / 20);
+        let clr = color(this.bgColor);
+        clr.setAlpha(100);
+        background(clr);
 		if (this.state.ready) {
             this.filter.frequency.exponentialRampToValueAtTime(this.frequencyAt(y));
 		}

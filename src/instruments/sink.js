@@ -14,7 +14,9 @@ let rocks = [];
 export class Sink extends Instrument {
     constructor(state, instrumentColor) {
 		super(state, instrumentColor);
+	}
 
+    createToneObjects() {
         this.synth = new Tone.MembraneSynth(
             {
                 "pitchDecay"  : 0.2 ,
@@ -35,9 +37,10 @@ export class Sink extends Instrument {
             roomSize: 0,
             wet: 0.5
         })
-	}
+    }
 
 	onOpen() {
+        this.createToneObjects();
         this.synth.connect(this.effect);
         this.effect.toDestination();
 		background(this.bgColor);
@@ -45,6 +48,9 @@ export class Sink extends Instrument {
 
 	onClose() {
 		this.effect.disconnect();
+        this.synth.dispose();
+        this.effect.dispose();
+        rocks = [];
 	}
 
 	draw() {
