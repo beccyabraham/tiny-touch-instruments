@@ -27,6 +27,20 @@ export class Wind extends Instrument {
                 }
             }
         )
+        this.synth2 = new Tone.Synth(
+            {
+                "portamento" : 0.0,
+                "oscillator": {
+                    "type": "square4"
+                },
+                "envelope": {
+                    "attack": 0.3,
+                    "decay": 1,
+                    "sustain": 0.2,
+                    "release": 2
+                }
+            }
+        )
         this.lpFilter = new Tone.Filter(
             {
                 type: "lowpass",
@@ -45,7 +59,8 @@ export class Wind extends Instrument {
                 gain: 0
             }
         )
-        this.gain = new Tone.Gain(0, "decibels")
+        this.gain = new Tone.Gain(0, "decibels");
+        this.gain2 = new Tone.Gain(0.5);
     }
 
 	onOpen() {
@@ -53,6 +68,8 @@ export class Wind extends Instrument {
         this.synth.connect(this.gain);
         this.gain.connect(this.lpFilter);
         this.lpFilter.connect(this.filter);
+        this.synth2.connect(this.gain2);
+        this.gain2.toDestination();
         this.filter.toDestination();
         // this.lpFilter.connect(this.filter);
         // this.filter.connect(this.gain);
@@ -63,7 +80,10 @@ export class Wind extends Instrument {
 
 	onClose() {
         this.gain.gain.rampTo(0);
+        this.gain2.gain.rampTo(0);
 		this.synth.disconnect();
+        this.synth2.disconnect();
+        this.synth2.dispose();
         this.synth.dispose();
         this.gain.dispose();
         this.lpFilter.dispose();
@@ -80,6 +100,10 @@ export class Wind extends Instrument {
                 newVal = map(timeElapsed, 0, 5000, 40, 32);
                 newVal = max(32, newVal);
                 this.gain.gain.rampTo(newVal);
+
+                newVal = map(timeElapsed, 0, 5000, 0.5, 0);
+                newVal = max(0, newVal);
+                this.gain2.gain.rampTo(newVal);
             }
         }
 	}
@@ -88,9 +112,14 @@ export class Wind extends Instrument {
         effectState.startTime = millis();
         effectState.active = true;
         this.populateNotes();
+        noStroke();
+        fill(skippingContrastColor);
+        circle(x, y, width / 20);
 		if (this.state.ready) {
             this.gain.gain.rampTo(40);
             this.synth.triggerAttack();
+            this.filter.frequency.exponentialRampToValueAtTime(this.frequencyAt(y));
+            this.synth2.triggerAttack(this.frequencyAt(y));
 		}
 	}
 
@@ -103,6 +132,7 @@ export class Wind extends Instrument {
         background(clr);
 		if (this.state.ready) {
             this.filter.frequency.exponentialRampToValueAtTime(this.frequencyAt(y));
+            this.synth2.frequency.exponentialRampToValueAtTime(this.frequencyAt(y));
 		}
 	}
 
@@ -110,6 +140,7 @@ export class Wind extends Instrument {
         effectState.active = false;
 		if (this.state.ready) {
             this.synth.triggerRelease();
+            this.synth2.triggerRelease();
 		}
         background(this.bgColor);
 	}
