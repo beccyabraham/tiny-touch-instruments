@@ -1,7 +1,7 @@
 
 export const skatingInstrumentColors = ["#FFEBFF", "#9BFAFD", "#E4FFC2"];
 //export const skippingInstrumentColors = ["#315C5E", "#115569", "#0D3144"];
-export const skippingInstrumentColors = ["#242038", "#003D1E", "#03394F"];
+export const skippingInstrumentColors = ["#865B8E", "#003D1E", "#03394F"];
 export const mainMenuColors = ["#FFEBFF", "#315C5E"];
 export const skatingContrastColor = "#150949";
 // export const skippingContrastColor = "#8FD694";
