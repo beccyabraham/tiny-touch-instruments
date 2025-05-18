@@ -146,7 +146,7 @@ export class Wind extends Instrument {
 	}
 
     populateNotes() {
-	synthNotes = ["A3". "B3", "C#4", "D4", "E4", "F#4", "G4", "A4"];
+	synthNotes = ["A3", "B3", "C#4", "D4", "E4", "F#4", "G4", "A4"];
         // synthNotes = [];
         // if (random() < 0.75) {
         //     synthNotes.push("A3");
